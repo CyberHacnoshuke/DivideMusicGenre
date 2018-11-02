@@ -1,11 +1,43 @@
-# 1. 判定に用いるもの
-　音っていうのは振動の濃淡があるから生まれるというのは知っていますよね？また、音は波状になっているのも知っていると思います。パソコンでもその波状を数値化することで音を保存しています。その形状をほとんど圧縮せず波の形のまま保存している拡張子がwavです。なのでwavファイルを使っていきます。今となってはmp3が主流ですが機械学習をするうえでwavファイルのほうがやりやすいといわれています。
-　しかし、波をそのまま学習させるとものすごい量になります。そこで、MFCC(メル周波数ケプストラム係数)というものを使います。
->MFCCは[ケプストラム](http://aidiary.hatenablog.com/entry/20120211/1328964624)（2012/2/11）と同じく声道特性を表す特徴量です。ケプストラムとMFCCの違いはMFCCが人間の音声知覚の特徴を考慮していることです。メルという言葉がそれを表しています。
-引用:http://aidiary.hatenablog.com/entry/20120225/1330179868
+# DivideMusicGenre
+ It expresses music by MFCC and makes machine learning its value.You can use it to classify music genres and to distinguish sounds.However, there are a couple of things to change and some points to be aware of when making models.
 
-要するに音の特徴を示す数値のようです。これを使えば音を分け、ジャンル化することができます。
+# Dependency
+ ## installing "librosa"
+ ~~~
+ $ pip install librosa
+ ~~~
 
-# 1. データの構造
-　学習するためのデータは同じ階層に作られているwavディレクトリにいれます。ジャンルごとのディレクトリをwavディレクトリの中に作り、その中にそのジャンルのwavファイルを入れてください。ディレクトリ名は特に指定はありません。ジャンル名にするとわかりやすいです。ジャンルの数も自由ですが各ジャンルの中のファイル数は均一にするといいでしょう。
-　このGitHubにはyesとnoファイルを作りました。yesは口笛でnoはそれ以外の生活音です。サンプルでは口笛かそうではないかを判定しています。
+# using
+ ## file structure
+ It is recommended that the file structure be as follows.
+ ~~~
+ DivideMusicGenre ──┬── DivideMusicGenre.ipynb
+                    │
+                    └── wav(directory) ──┬── MusicGenreA (directory)
+                                         ├── MusicGenreB (directory)
+                                         └── MisicGenreC (directory)
+ ~~~
+
+ It would be nice to prepare directories for each genre and put wav files of each genre in nearly the same number in that directory. In the example above, there are three genres, A, B, and C. However, this time we only have two genres in this Github, "yes" and "no". "yes" means that the wav file in "yes"directory a whistle, and "no" means that the wav file in "yes"directory a whistle.
+
+ ## changing genre
+ If you want to change number of genre/name of genre, you must change part of the source code. Now, I want change number of genre from 2 (yes/no) to 3 (A/B/C).In that case, change it as follows.
+
+ ~~~python3
+ '''
+ # it is a old source code.
+ yes_x, yes_y = load('wav/yes/', 'yes')
+ no_x, no_y = load('wav/no/', 'no')
+
+ X = np.r_[yes_x, no_x]
+ Y = np.r_[yes_y, no_y]
+ '''
+
+ # it is a new source code.
+ A_x, A_y = load('wav/MusicGenreA/', 'MusicGenreA')
+ B_x, B_y = load('wav/MusicGenreB/', 'MusicGenreB')
+ C_x, C_y = load('wav/MusicGenreC/', 'MusicGenreC')
+
+ X = np.r_[A_x, B_x, C_x]
+ Y = np.r_[A_y, B_y, C_y]
+ ~~~
