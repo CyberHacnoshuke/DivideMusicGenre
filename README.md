@@ -7,15 +7,21 @@
  $ pip install librosa
  ~~~
 
-# using
+# Usage
  ## file structure
  It is recommended that the file structure be as follows.
  ~~~
- DivideMusicGenre ──┬── DivideMusicGenre.ipynb
-                    ├── testWav (directory)
-                    └── wav (directory) ──┬── MusicGenreA (directory)
-                                          ├── MusicGenreB (directory)
-                                          └── MisicGenreC (directory)
+ DivideMusicGenre/
+        ├── DivideMusicGenre.ipynb
+        ├── MakeModels.py
+        ├── Judgment.py
+        ├── testWav/
+        │    ├── answer0_1.wav
+        │          ....
+        └── wav/
+             ├── MusicGenreA/
+             ├── MusicGenreB/
+             └── MisicGenreC/
  ~~~
 
  It would be nice to prepare directories for each genre and put wav files of each genre in nearly the same number in that directory. In the example above, there are three genres, A, B, and C. However, this time we only have two genres in this Github, "yes" and "no". "yes" means that the wav file in "yes"directory a whistle, and "no" means that the wav file in "yes"directory a whistle.
@@ -42,7 +48,7 @@
  X = np.r_[A_x, B_x, C_x]
  Y = np.r_[A_y, B_y, C_y]
  ~~~
- The second argument of the ```load``` function must be a number enclosed with Double Quarte Shooting mark. 
+ The second argument of the ```load``` function must be a number enclosed with Quarte Shooting mark. 
 
  ## Let's test!
 
@@ -58,5 +64,34 @@
  ~~~
  Place the test wav file in the ```testWav``` directory and the file path with relative path. The label name is displayed. (Such as 0 or 1)
 
+ ## GoogleColaboratory
+ I give you DivideMusicGenre.ipynb. This can divide music in GoogleColaboratory.Please mount GoogleDrive and execute the program. It is recommended that the file structure be as follows in GoogleDrive.
+ ~~~
+ GoogleDrive/
+   └── Colab Notebook/
+             ├── DivideMusicGenre.ipynb
+             ├── wav/
+             │    ├── MusicGenreA/
+             │    ├── MusicGenreB/
+             │    └── MisicGenreC/
+             └── testWav/
+                    ├── answer0_1.wav
+                    　　　 ....
+ ~~~
+
+ When you mount it, it looks like this in Google Colaboratory.
+ ~~~
+My Drive/
+    └── Drive/
+          └── Colab Notebook/
+                   ├── DivideMusicGenre.ipynb
+                   ├── wav/
+                   │    ├── MusicGenreA/
+                   │    ├── MusicGenreB/
+                   │    └── MisicGenreC/
+                   └── testWav/
+                        ├── answer0_1.wav
+                       　　　 ....
+ ~~~
 # Licence
  This software is released under the ***BSD 3-Clause License***, see LICENSE.
