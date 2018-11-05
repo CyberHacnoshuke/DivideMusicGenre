@@ -3,37 +3,35 @@ import librosa
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Activation, Conv2D, MaxPooling2D
-from sklearn.model_selection import train_test_split
 from keras.utils import to_categorical
 
 def load_a_file(file_path):
-  n_mfcc = 20
-  y, sr = librosa.load(file_path, mono=True, sr=None)
-  y = y[::3]
-  mfcc = librosa.feature.mfcc(y=y, sr=16000, n_mfcc=n_mfcc)
-  # If maximum length exceeds mfcc lengths then pad the remaining ones
-  if (11 > mfcc.shape[1]):
-    pad_width = 11 - mfcc.shape[1]
-    mfcc = np.pad(mfcc, pad_width=((0, 0), (0, pad_width)), mode='constant')
-  # Else cutoff the remaining parts
-  else:
-    mfcc = mfcc[:, :11]
-    
-  return mfcc
+    n_mfcc = 20
+    y, sr = librosa.load(file_path, mono=True, sr=None)
+    y = y[::3]
+    mfcc = librosa.feature.mfcc(y=y, sr=16000, n_mfcc=n_mfcc)
+    # If maximum length exceeds mfcc lengths then pad the remaining ones
+    if (11 > mfcc.shape[1]):
+        pad_width = 11 - mfcc.shape[1]
+        mfcc = np.pad(mfcc, pad_width=((0, 0), (0, pad_width)), mode='constant')
+    # Else cutoff the remaining parts
+    else:
+        mfcc = mfcc[:, :11]
+
+    return mfcc
+
 def load(dir_path, label):
-  mfcc_vectors = []
-  genre_y = np.zeros((0, 1), dtype='int')
-    
-  files = os.listdir(dir_path)
-  for i, file in enumerate(files):
-    file_path = dir_path + file
-    mfcc = load_a_file(file_path)
-    mfcc_vectors.append(mfcc)
+    mfcc_vectors = []
+    genre_y = np.zeros((0, 1), dtype='int')
+    files = os.listdir(dir_path)
+    for i, file in enumerate(files):
+        file_path = dir_path + file
+        mfcc = load_a_file(file_path)
+        mfcc_vectors.append(mfcc)
     genre_y = np.vstack((genre_y, label))
     print(f'{i+1}/{len(files)} loaded: {file_path}')
-  
-  genre_x = np.array(mfcc_vectors)
-  return genre_x, genre_y
+    genre_x = np.array(mfcc_vectors)
+    return genre_x, genre_y
 
 if __name__ == '__main__':
     # *---------------------------------Please change here.---------------------------------*
